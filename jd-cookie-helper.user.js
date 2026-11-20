@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         京东Cookie一键配置到青龙
 // @namespace    http://tampermonkey.net/
-// @version      1.2.2
+// @version      1.3.0
 // @description  一键获取京东Cookie并自动配置到青龙面板，支持电脑端和移动端
 // @author       JD Helper
 // @match        https://jd.com/*
@@ -58,6 +58,11 @@
         error: '❌',
         warning: '⚠️'
     };
+
+    // 当前版本与更新地址（与 metadata 保持一致）
+    const CURRENT_VERSION = '1.3.0';
+    const UPDATE_URL = 'https://raw.githubusercontent.com/junyi5d/jd-cookie-helper/main/jd-cookie-helper.user.js';
+    const PROJECT_URL = 'https://github.com/junyi5d/jd-cookie-helper';
 
     // ============ Cookie 读取工具 ============
 
@@ -647,9 +652,14 @@
                     font-size: 12px;
                     line-height: 1.4;
                 }
-                .jd-cookie-panel .panel-badge {
+                .jd-cookie-panel .panel-badge-group {
                     margin-left: auto;
                     flex: 0 0 auto;
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+                .jd-cookie-panel .panel-badge {
                     padding: 3px 9px;
                     border-radius: 999px;
                     background: #fff0ef;
@@ -657,6 +667,41 @@
                     color: #e2231a;
                     font-size: 11px;
                     font-weight: 600;
+                    text-decoration: none;
+                    cursor: pointer;
+                    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+                }
+                .jd-cookie-panel .panel-badge:hover {
+                    background: #ffe4e1;
+                    border-color: #ffc4bd;
+                    transform: translateY(-1px);
+                }
+                .jd-cookie-panel .btn-check-update {
+                    flex: none;
+                    width: 22px;
+                    height: 22px;
+                    padding: 0;
+                    border: 1px solid #ffd9d6;
+                    border-radius: 50%;
+                    background: #fff0ef;
+                    color: #e2231a;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+                }
+                .jd-cookie-panel .btn-check-update:hover {
+                    background: #ffe4e1;
+                    border-color: #ffc4bd;
+                    transform: translateY(-1px);
+                }
+                .jd-cookie-panel .btn-check-update.checking svg {
+                    animation: jdSpin 0.9s linear infinite;
+                }
+                @keyframes jdSpin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
                 }
                 .jd-cookie-panel .close-btn {
                     position: absolute;
@@ -1081,7 +1126,12 @@
                         <h3>京东 Cookie 助手</h3>
                         <p>一键同步登录态到青龙面板</p>
                     </div>
-                    <span class="panel-badge">v1.2.2</span>
+                    <div class="panel-badge-group">
+                        <a class="panel-badge" id="link-version" href="https://github.com/junyi5d/jd-cookie-helper" target="_blank" rel="noopener" title="点击查看项目主页">v1.3.0</a>
+                        <button class="btn-check-update" id="btn-check-update" type="button" title="检查更新" aria-label="检查更新">
+                            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="tab-bar" role="tablist">
@@ -1206,7 +1256,8 @@
                 switchNotify: panel.querySelector('#switch-notify'),
                 btnSponsor: panel.querySelector('#btn-sponsor'),
                 closeBtn: panel.querySelector('.close-btn'),
-                closeSponsorBtn: sponsorModal.querySelector('.close-sponsor')
+                closeSponsorBtn: sponsorModal.querySelector('.close-sponsor'),
+                btnCheckUpdate: panel.querySelector('#btn-check-update')
             };
         }
 
@@ -1273,6 +1324,11 @@
 
             // 赞助按钮
             el.btnSponsor.addEventListener('click', () => this.openSponsor());
+
+            // 检查更新
+            if (el.btnCheckUpdate) {
+                el.btnCheckUpdate.addEventListener('click', () => this.checkUpdate());
+            }
 
             // 关闭赞助模态框
             el.closeSponsorBtn.addEventListener('click', () => this.closeSponsor());
@@ -1867,6 +1923,109 @@
             this.elements.qinglongUsername.value = username;
             this.elements.qinglongPassword.value = password;
             this.setNotifyEnabled(notifyEnabled === true || notifyEnabled === 'true');
+        }
+
+        // 检查更新：拉取远程脚本解析 @version 并比对
+        checkUpdate() {
+            const btn = this.elements.btnCheckUpdate;
+            if (btn && btn.classList.contains('checking')) return;
+
+            if (btn) btn.classList.add('checking');
+            this.showStatus('正在检查更新...', 'warning');
+
+            const finish = () => { if (btn) btn.classList.remove('checking'); };
+
+            const handleRemote = (text) => {
+                const match = text && text.match(/@version\s+([0-9]+\.[0-9]+\.[0-9]+(?:[-\w.]*))/);
+                if (!match) {
+                    finish();
+                    this.showStatus('未在远程脚本中解析到版本号。', 'error');
+                    return;
+                }
+                const remoteVersion = match[1];
+                const cmp = this.compareVersion(remoteVersion, CURRENT_VERSION);
+                finish();
+                if (cmp > 0) {
+                    this.setStatusHTML(
+                        `✅ 发现新版本 <b>v${remoteVersion}</b>（当前 v${CURRENT_VERSION}）。<a href="${UPDATE_URL}" target="_blank" rel="noopener" style="color:#11693b;text-decoration:underline;margin-left:6px;">点击更新</a>`,
+                        'success'
+                    );
+                } else if (cmp === 0) {
+                    this.showStatus(`已是最新版本 v${CURRENT_VERSION}。`, 'success');
+                } else {
+                    this.showStatus(`当前版本 v${CURRENT_VERSION} 高于远程 v${remoteVersion}，可能是开发版。`, 'warning');
+                }
+            };
+
+            const handleError = (err) => {
+                finish();
+                this.setStatusHTML(
+                    '❌ 检查更新失败：' + (err || '网络异常') + '，可<a href="' + PROJECT_URL + '" target="_blank" rel="noopener" style="color:#a61b14;text-decoration:underline;margin-left:4px;">前往项目页</a>查看。',
+                    'error'
+                );
+            };
+
+            try {
+                if (typeof GM_xmlhttpRequest === 'function') {
+                    GM_xmlhttpRequest({
+                        method: 'GET',
+                        url: UPDATE_URL + '?_=' + Date.now(),
+                        timeout: 10000,
+                        onload: (res) => {
+                            if (res && res.status === 200) {
+                                handleRemote(res.responseText);
+                            } else {
+                                handleError('HTTP ' + (res && res.status));
+                            }
+                        },
+                        onerror: () => handleError('网络错误'),
+                        ontimeout: () => handleError('请求超时')
+                    });
+                    return;
+                }
+            } catch (e) {
+                // 退回到 fetch
+            }
+
+            // 退回 fetch（部分管理器无 GM_xmlhttpRequest 时）
+            fetch(UPDATE_URL + '?_=' + Date.now(), { cache: 'no-store' })
+                .then((r) => {
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.text();
+                })
+                .then(handleRemote)
+                .catch((e) => handleError(e && e.message));
+        }
+
+        // 版本号比对：a > b 返回 1，a === b 返回 0，a < b 返回 -1
+        compareVersion(a, b) {
+            const pa = String(a).replace(/^v/i, '').split('-')[0].split('.').map((n) => parseInt(n, 10) || 0);
+            const pb = String(b).replace(/^v/i, '').split('-')[0].split('.').map((n) => parseInt(n, 10) || 0);
+            const len = Math.max(pa.length, pb.length);
+            for (let i = 0; i < len; i++) {
+                const x = pa[i] || 0;
+                const y = pb[i] || 0;
+                if (x > y) return 1;
+                if (x < y) return -1;
+            }
+            return 0;
+        }
+
+        // 显示状态（支持 HTML，谨慎使用）
+        setStatusHTML(html, type) {
+            const el = this.elements.statusBox;
+            el.innerHTML = '';
+            const box = document.createElement('div');
+            box.className = `status ${type}`;
+            box.innerHTML = html;
+            el.appendChild(box);
+            if (type !== 'error') {
+                setTimeout(() => {
+                    if (box.parentNode === el) {
+                        el.innerHTML = '';
+                    }
+                }, 8000);
+            }
         }
 
         // 显示状态
