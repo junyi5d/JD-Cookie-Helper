@@ -1,10 +1,10 @@
-# 京东Cookie助手 - 青龙面板自动配置
-
-> 京东Cookie助手，篡改猴搭配脚本自动获取，配备UI悬浮窗，一键同步到青龙面板，减少手工抓取京东Cookie的pt_key、pt_pin
-
-> 原作者：[zhanzhiwei123456-dotcom/d-cookie-helper](https://github.com/zhanzhiwei123456-dotcom/d-cookie-helper)
+# JD Cookie Helper
 
 <div align="center">
+     
+**京东Cookie助手，篡改猴搭配脚本自动获取，配备UI悬浮窗，一键同步到青龙面板，减少手工抓取京东Cookie的pt_key、pt_pin**
+
+> 原作者：[zhanzhiwei123456-dotcom/d-cookie-helper](https://github.com/zhanzhiwei123456-dotcom/d-cookie-helper)
 
 [![version](https://img.shields.io/badge/version-1.3.3-blue.svg)](https://github.com/junyi5d/JD-Cookie-Helper)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
@@ -13,6 +13,8 @@
 [功能特点](#功能特点) · [安装步骤](#安装步骤) · [使用教程](#使用教程) · [常见问题](#常见问题)
 
 </div>
+
+***
 
 ## 功能特点
 
@@ -25,6 +27,8 @@
 - 🔎 **版本检查** - 版本号可点击跳转项目主页，旁边的刷新按钮可一键检查是否有新版本
 - 🎨 **双页签可视化界面** - 「获取 Cookie」与「青龙配置」分开展示，操作更清晰
 - 💖 **免费开源** - 完全免费，自愿赞助
+
+***
 
 ## 使用前提
 
@@ -43,9 +47,9 @@
    - 如果还没有安装青龙面板，推荐使用 Docker 部署
    - 部署教程: https://github.com/whyour/qinglong
 
-## 安装步骤
+***
 
-### 手动安装
+## 安装步骤
 
 1. 一键安装链接（Tampermonkey 会直接弹出安装页）：
    https://www.tampermonkey.net/script_installation.php#url=https://github.com/junyi5d/jd-cookie-helper/raw/refs/heads/main/jd-cookie-helper.user.js
@@ -54,6 +58,8 @@
 4. 点击"实用工具"选项卡
 5. 将文件URL粘贴到"从URL安装"输入框
 6. 点击"安装"
+
+***
 
 ## 使用教程
 
@@ -97,6 +103,8 @@
 2. 进入"环境变量"页面
 3. 确认 `JD_COOKIE` 环境变量已创建
 4. 值为类似 `pt_key=AA...; pt_pin=xxx;` 的格式
+
+***
 
 ## 常见问题
 
@@ -152,9 +160,13 @@ A: 本脚本：
 
 A: 这是京东账号现在收紧了cookie的有效时间，有时候半天就会掉，所以尽量少跑一些容易触发风控的任务，降低频率。
 
+***
+
 ## 许可证
 
 本项目采用 [MIT License](LICENSE) 开源协议。
+
+***
 
 ## 免责声明
 
@@ -162,6 +174,8 @@ A: 这是京东账号现在收紧了cookie的有效时间，有时候半天就�
 2. 使用本脚本产生的任何问题，概由使用者自行承担
 3. 京东、青龙等 trademarks 归其各自所有者所有
 4. 作者不对账号封禁、积分清零等问题负责
+
+***
 
 ## 赞赏支持
 
