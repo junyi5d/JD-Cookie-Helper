@@ -33,7 +33,7 @@
 ## 使用前提
 
 1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 浏览器扩展
-     - Chrome: https://chrome.google.com/webstore/detail/tampermonkey
+     - Chrome(国内受限，可通过官网下载.crx安装): https://chrome.google.com/webstore/detail/tampermonkey
      - Edge: https://microsoftedge.microsoft.com/addons/detail/tampermonkey
      - Firefox: https://addons.mozilla.org/firefox/addon/tampermonkey/
    - **[Violentmonkey](https://violentmonkey.github.io/)** （对 HttpOnly Cookie 支持更直接）
