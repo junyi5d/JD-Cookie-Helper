@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         京东Cookie一键配置到青龙
 // @namespace    http://tampermonkey.net/
-// @version      1.3.2
+// @version      1.3.3
 // @description  一键获取京东Cookie并自动配置到青龙面板，支持电脑端和移动端
 // @author       junyi5d
 // @match        https://jd.com/*
@@ -22,6 +22,11 @@
 // @updateURL    https://raw.githubusercontent.com/junyi5d/jd-cookie-helper/main/jd-cookie-helper.user.js
 // @downloadURL  https://raw.githubusercontent.com/junyi5d/jd-cookie-helper/main/jd-cookie-helper.user.js
 // ==/UserScript==
+
+// ============ 全局版本常量 ============
+// 说明：此处为脚本唯一版本来源，@version 元数据需同步修改；
+// 控制台日志与设置面板的版本号均引用该常量。
+const CURRENT_VERSION = '1.3.3';
 
 (function () {
     'use strict';
@@ -59,8 +64,7 @@
         warning: '⚠️'
     };
 
-    // 当前版本与更新地址（与 metadata 保持一致）
-    const CURRENT_VERSION = '1.3.2';
+    // 更新地址（版本号见文件顶部全局常量 CURRENT_VERSION）
     const UPDATE_URL = 'https://raw.githubusercontent.com/junyi5d/jd-cookie-helper/main/jd-cookie-helper.user.js';
     const PROJECT_URL = 'https://github.com/junyi5d/jd-cookie-helper';
 
@@ -1084,7 +1088,7 @@
                         <p>一键同步登录态到青龙面板</p>
                     </div>
                     <div class="panel-badge-group">
-                        <a class="panel-badge" id="link-version" href="https://github.com/junyi5d/jd-cookie-helper" target="_blank" rel="noopener" title="点击查看项目主页">v1.3.2</a>
+                        <a class="panel-badge" id="link-version" href="https://github.com/junyi5d/jd-cookie-helper" target="_blank" rel="noopener" title="点击查看项目主页">v${CURRENT_VERSION}</a>
                         <button class="btn-check-update" id="btn-check-update" type="button" title="检查更新" aria-label="检查更新">
                             <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
                         </button>
@@ -1966,6 +1970,7 @@
     }
 
     // 初始化
+    console.log(`【京东Cookie助手】v${CURRENT_VERSION} 已加载`);
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => new JDCookieHelper());
     } else {
