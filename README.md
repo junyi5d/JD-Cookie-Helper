@@ -28,12 +28,11 @@
 
 ## 使用前提
 
-1. 安装脚本管理器（任选其一）
-   - **Tampermonkey 5.3+**：Chrome / Edge / Firefox
+1. 安装 [Tampermonkey](https://www.tampermonkey.net/) 浏览器扩展
      - Chrome: https://chrome.google.com/webstore/detail/tampermonkey
      - Edge: https://microsoftedge.microsoft.com/addons/detail/tampermonkey
      - Firefox: https://addons.mozilla.org/firefox/addon/tampermonkey/
-   - **Violentmonkey** 或 **ScriptCat**（对 HttpOnly Cookie 支持更直接）
+   - **[Violentmonkey](https://violentmonkey.github.io/)** （对 HttpOnly Cookie 支持更直接）
 
    > ⚠️ 京东的 `pt_key` 是 **HttpOnly Cookie**，普通 `document.cookie` 读不到。
    > 使用 Tampermonkey 时请务必开启 HttpOnly Cookie 访问权限：
