@@ -1,14 +1,18 @@
 # 京东Cookie助手 - 青龙面板自动配置
 
-> 一键获取京东Cookie并自动配置到青龙面板，省时省力！
+> 京东Cookie助手，篡改猴搭配脚本自动获取，配备UI悬浮窗，一键同步到青龙面板，省时省力！
 
-> 原作者：[zhanzhiwei123456-dotcom/d-cookie-helper](https://github.com/zhanzhiwei123456-dotcom/d-cookie-helper)，本仓库为个人维护的 fork。
+> 原作者：[zhanzhiwei123456-dotcom/d-cookie-helper](https://github.com/zhanzhiwei123456-dotcom/d-cookie-helper)
 
-![version](https://img.shields.io/badge/version-1.3.3-blue.svg)
-![license](https://img.shields.io/badge/license-MIT-green.svg)
-![Tampermonkey](https://img.shields.io/badge/Tampermonkey-5.3%2B-orange.svg)
+<div align="center">
+
+[![version](https://img.shields.io/badge/version-1.3.3-blue.svg)](https://github.com/junyi5d/JD-Cookie-Helper)
+[![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Tampermonkey](https://img.shields.io/badge/Tampermonkey-5.3%2B-orange.svg)](https://www.tampermonkey.net/)
 
 [功能特点](#功能特点) · [安装步骤](#安装步骤) · [使用教程](#使用教程) · [常见问题](#常见问题)
+
+</div>
 
 ## 功能特点
 
