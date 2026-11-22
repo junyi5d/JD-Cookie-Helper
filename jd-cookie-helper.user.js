@@ -3,7 +3,7 @@
 // @namespace    http://tampermonkey.net/
 // @version      1.3.2
 // @description  一键获取京东Cookie并自动配置到青龙面板，支持电脑端和移动端
-// @author       JD Helper
+// @author       junyi5d
 // @match        https://jd.com/*
 // @match        https://*.jd.com/*
 // @match        https://jd.hk/*
