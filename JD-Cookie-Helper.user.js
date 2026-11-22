@@ -19,8 +19,8 @@
 // @run-at       document-idle
 // @noframes
 // @license      MIT
-// @updateURL    https://raw.githubusercontent.com/junyi5d/jd-cookie-helper/main/jd-cookie-helper.user.js
-// @downloadURL  https://raw.githubusercontent.com/junyi5d/jd-cookie-helper/main/jd-cookie-helper.user.js
+// @updateURL    https://raw.githubusercontent.com/junyi5d/JD-Cookie-Helper/main/JD-Cookie-Helper.user.js
+// @downloadURL  https://raw.githubusercontent.com/junyi5d/JD-Cookie-Helper/main/JD-Cookie-Helper.user.js
 // ==/UserScript==
 
 // ============ 全局版本常量 ============
@@ -65,8 +65,8 @@ const CURRENT_VERSION = '1.3.3';
     };
 
     // 更新地址（版本号见文件顶部全局常量 CURRENT_VERSION）
-    const UPDATE_URL = 'https://raw.githubusercontent.com/junyi5d/jd-cookie-helper/main/jd-cookie-helper.user.js';
-    const PROJECT_URL = 'https://github.com/junyi5d/jd-cookie-helper';
+    const UPDATE_URL = 'https://raw.githubusercontent.com/junyi5d/JD-Cookie-Helper/main/JD-Cookie-Helper.user.js';
+    const PROJECT_URL = 'https://github.com/junyi5d/JD-Cookie-Helper';
 
     // ============ Cookie 读取工具 ============
 
@@ -1088,7 +1088,7 @@ const CURRENT_VERSION = '1.3.3';
                         <p>一键同步登录态到青龙面板</p>
                     </div>
                     <div class="panel-badge-group">
-                        <a class="panel-badge" id="link-version" href="https://github.com/junyi5d/jd-cookie-helper" target="_blank" rel="noopener" title="点击查看项目主页">v${CURRENT_VERSION}</a>
+                        <a class="panel-badge" id="link-version" href="https://github.com/junyi5d/JD-Cookie-Helper" target="_blank" rel="noopener" title="点击查看项目主页">v${CURRENT_VERSION}</a>
                         <button class="btn-check-update" id="btn-check-update" type="button" title="检查更新" aria-label="检查更新">
                             <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.64-6.36M21 3v6h-6"/></svg>
                         </button>
