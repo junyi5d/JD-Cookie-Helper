@@ -4,6 +4,12 @@
 
 > 原作者：[zhanzhiwei123456-dotcom/d-cookie-helper](https://github.com/zhanzhiwei123456-dotcom/d-cookie-helper)，本仓库为个人维护的 fork。
 
+![version](https://img.shields.io/badge/version-1.3.3-blue.svg "version")
+![license](https://img.shields.io/badge/license-MIT-green.svg "license")
+![Tampermonkey](https://img.shields.io/badge/Tampermonkey-5.3%2B-orange.svg "Tampermonkey")
+
+[功能特点](#功能特点) · [安装步骤](#安装步骤) · [使用教程](#使用教程) · [常见问题](#常见问题)
+
 ## 功能特点
 
 - 🔍 **自动提取Cookie** - 跨 `.jd.com` 各子域读取，支持 HttpOnly 的 `pt_key`，兼容电脑端和移动端
@@ -12,6 +18,7 @@
 - ✍️ **手动粘贴兜底** - 自动获取失败时可直接粘贴 `pt_key/pt_pin`
 - 🚀 **一键发送到青龙** - 按 `pt_pin` 更新或追加，不会重复创建 `JD_COOKIE`
 - 💾 **配置本地保存** - 青龙地址、用户名密码保存到本地
+- 🔎 **版本检查** - 版本号可点击跳转项目主页，旁边的刷新按钮可一键检查是否有新版本
 - 🎨 **双页签可视化界面** - 「获取 Cookie」与「青龙配置」分开展示，操作更清晰
 - 💖 **免费开源** - 完全免费，自愿赞助
 
@@ -34,9 +41,11 @@
    - 如果还没有安装青龙面板，推荐使用 Docker 部署
    - 部署教程: <https://github.com/whyour/qinglong>
 
-## 安装及更新
+## 安装步骤
 
-1. 一键安装更新链接（Tampermonkey 会直接弹出安装更新页）：
+### 手动安装
+
+1. 一键安装链接（Tampermonkey 会直接弹出安装页）：
    <https://www.tampermonkey.net/script_installation.php#url=https://github.com/junyi5d/jd-cookie-helper/raw/refs/heads/main/jd-cookie-helper.user.js>
 2. 或下载本仓库中的 `jd-cookie-helper.user.js` 文件
 3. 打开 Tampermonkey 扩展管理页面
@@ -65,7 +74,8 @@
    - **青龙面板地址**: 例如 `http://localhost:5700`
    - **青龙用户名**: 你的青龙登录用户名
    - **青龙密码**: 你的青龙登录密码
-3. 点击"保存配置"按钮（配置会保存到本地）
+3. 点击"保存配置"按钮（账号密码仅保存在浏览器本地，不会上传到第三方）
+4. 如需确认是否有新版本，点击页面顶部版本号旁的刷新按钮进行检查；点击版本号可跳转到项目主页
 
 ### 第四步：提取并发送Cookie
 
@@ -126,6 +136,16 @@ A: 这是青龙面板认证问题，请确认：
 3. 青龙面板是否可以正常访问
 4. 青龙版本是否 ≥ 2.9（过旧版本 API 不兼容）
 
+### Q: 如何检查是否有新版本？
+
+A: 打开助手面板，点击顶部版本号（如 `v1.3.1`）右侧的小刷新按钮，脚本会拉取线上最新脚本版本并与本地比对：
+
+- 有新版本：显示新版本号及「点击更新」链接；
+- 已是最新：提示当前已是最新版本；
+- 无法检查：给出网络异常提示及项目主页链接。
+
+点击版本号本身会新窗口打开 [项目主页](https://github.com/junyi5d/jd-cookie-helper)。
+
 ### Q: Cookie信息安全吗？
 
 A: 本脚本：
@@ -150,7 +170,7 @@ A: 本脚本：
 
 💖 如果这个工具对你有帮助，欢迎赞赏支持！
 
-点击脚本面板底部的"🎁 赞赏支持"按钮查看二维码。
+在「⚙️ 青龙配置」页签底部点击"🎁 赞赏支持"即可查看微信赞赏码。
 
 ***
 
