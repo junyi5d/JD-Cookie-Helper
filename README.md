@@ -4,6 +4,12 @@
 
 > 原作者：[zhanzhiwei123456-dotcom/d-cookie-helper](https://github.com/zhanzhiwei123456-dotcom/d-cookie-helper)，本仓库为个人维护的 fork。
 
+![version](https://img.shields.io/badge/version-1.3.3-blue.svg)
+![license](https://img.shields.io/badge/license-MIT-green.svg)
+![Tampermonkey](https://img.shields.io/badge/Tampermonkey-5.3%2B-orange.svg)
+
+[功能特点](#功能特点) · [安装步骤](#安装步骤) · [使用教程](#使用教程) · [常见问题](#常见问题)
+
 ## 功能特点
 
 - 🔍 **自动提取Cookie** - 跨 `.jd.com` 各子域读取，支持 HttpOnly 的 `pt_key`，兼容电脑端和移动端
