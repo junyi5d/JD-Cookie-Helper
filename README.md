@@ -51,13 +51,12 @@
 
 ## 安装步骤
 
-1. 一键安装链接（Tampermonkey 会直接弹出安装页）：
-   https://www.tampermonkey.net/script_installation.php#url=https://github.com/junyi5d/jd-cookie-helper/raw/refs/heads/main/jd-cookie-helper.user.js
-2. 或下载本仓库中的 `jd-cookie-helper.user.js` 文件
+1. 一键安装/更新链接（Tampermonkey 会直接弹出安装/更新页）：
+[https://www.tampermonkey.net/script_installation.php#url=https://github.com/junyi5d/JD-Cookie-Helper/raw/refs/heads/main/JD-Cookie-Helper.user.js](https://www.tampermonkey.net/script_installation.php#url=https://github.com/junyi5d/JD-Cookie-Helper/raw/refs/heads/main/JD-Cookie-Helper.user.js)
+2. 或下载本仓库中的 `JD-Cookie-Helper.user.js` 文件
 3. 打开 Tampermonkey 扩展管理页面
 4. 点击"实用工具"选项卡
-5. 将文件URL粘贴到"从URL安装"输入框
-6. 点击"安装"
+5. 将文件URL粘贴到"从URL安装"输入框，点击"安装"
 
 ***
 
