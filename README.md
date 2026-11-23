@@ -2,7 +2,7 @@
 
 <div align="center">
      
-**京东Cookie助手，搭配篡改猴自动获取CK，一键同步到青龙面板，减少手工抓取pt_key、pt_pin的烦恼**
+**京东Cookie助手 - 搭配篡改猴自动获取CK，一键同步到青龙面板，减少手工抓取pt_key、pt_pin的烦恼**
 
 > 原作者：[zhanzhiwei123456-dotcom/d-cookie-helper](https://github.com/zhanzhiwei123456-dotcom/d-cookie-helper)
 
@@ -192,3 +192,4 @@ A: 这是京东账号现在收紧了cookie的有效时间，有时候半天就�
 [⬆ 回到顶部](#JD-Cookie-Helper)
 
 </div>
+
