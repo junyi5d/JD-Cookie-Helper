@@ -2,7 +2,7 @@
 
 <div align="center">
      
-**京东Cookie助手，篡改猴搭配脚本自动获取，配备UI悬浮窗，一键同步到青龙面板，减少手工抓取京东Cookie的pt_key、pt_pin**
+**京东Cookie助手，搭配篡改猴自动获取CK，一键同步到青龙面板，减少手工抓取pt_key、pt_pin的烦恼**
 
 > 原作者：[zhanzhiwei123456-dotcom/d-cookie-helper](https://github.com/zhanzhiwei123456-dotcom/d-cookie-helper)
 
