@@ -2,7 +2,7 @@
 // @name         京东Cookie助手
 // @namespace    http://tampermonkey.net/
 // @version      1.3.3
-// @description  篡改猴搭配脚本自动获取，配备UI悬浮窗，一键同步到青龙面板
+// @description  京东Cookie助手 - 搭配篡改猴自动获取CK，一键同步到青龙面板，减少手工抓取pt_key、pt_pin的烦恼
 // @author       JD Helper、junyi5d
 // @match        https://jd.com/*
 // @match        https://*.jd.com/*
@@ -15,9 +15,7 @@
 // @grant        GM_addStyle
 // @grant        GM_cookie
 // @connect      jd.com
-// @connect      *
 // @run-at       document-idle
-// @noframes
 // @license      MIT
 // @updateURL    https://raw.githubusercontent.com/junyi5d/JD-Cookie-Helper/main/JD-Cookie-Helper.user.js
 // @downloadURL  https://raw.githubusercontent.com/junyi5d/JD-Cookie-Helper/main/JD-Cookie-Helper.user.js
@@ -219,7 +217,6 @@ const CURRENT_VERSION = '1.3.3';
 
     /**
      * 注入样式：优先用 GM_addStyle，同时再插入一个原生 <style> 兜底。
-     * 部分国产浏览器（如 360 极速）内置脚本管理器对 GM_addStyle 兼容不佳，
      * 只调用 GM_addStyle 会导致整段样式丢失，界面变成未美化的原始 DOM。
      */
     function addStyle(css) {
