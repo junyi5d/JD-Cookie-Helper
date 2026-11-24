@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         京东Cookie助手
 // @namespace    http://tampermonkey.net/
-// @version      1.3.3
+// @version      1.3.4
 // @description  京东Cookie助手 - 搭配篡改猴自动获取CK，一键同步到青龙面板，减少手工抓取pt_key、pt_pin的烦恼
 // @author       JD Helper、junyi5d
 // @match        https://jd.com/*
@@ -24,7 +24,7 @@
 // ============ 全局版本常量 ============
 // 说明：此处为脚本唯一版本来源，@version 元数据需同步修改；
 // 控制台日志与设置面板的版本号均引用该常量。
-const CURRENT_VERSION = '1.3.3';
+const CURRENT_VERSION = '1.3.4';
 
 (function () {
     'use strict';
@@ -854,6 +854,10 @@ const CURRENT_VERSION = '1.3.3';
                     border-color: #ffc9c4;
                     color: #e2231a;
                 }
+                .jd-cookie-panel .btn-ghost.checking {
+                    opacity: 0.7;
+                    pointer-events: none;
+                }
                 .jd-cookie-panel .btn-full {
                     width: 100%;
                     flex: none;
@@ -1157,7 +1161,10 @@ const CURRENT_VERSION = '1.3.3';
 
                         <p class="privacy-note">🔒 账号密码仅保存在浏览器本地，不会上传到第三方。</p>
 
-                        <button class="btn-primary btn-full" id="btn-save-config">💾 保存配置</button>
+                        <div class="btn-group">
+                            <button class="btn-ghost" id="btn-check-config" type="button">🔍 配置检测</button>
+                            <button class="btn-primary" id="btn-save-config" type="button">💾 保存配置</button>
+                        </div>
 
                         <div class="switch-row">
                             <div class="switch-info">
@@ -1201,6 +1208,7 @@ const CURRENT_VERSION = '1.3.3';
                 btnOpenLogin: panel.querySelector('#btn-open-login'),
                 btnUseManual: panel.querySelector('#btn-use-manual'),
                 btnSaveConfig: panel.querySelector('#btn-save-config'),
+                btnCheckConfig: panel.querySelector('#btn-check-config'),
                 switchNotify: panel.querySelector('#switch-notify'),
                 btnSponsor: panel.querySelector('#btn-sponsor'),
                 closeBtn: panel.querySelector('.close-btn'),
@@ -1253,6 +1261,11 @@ const CURRENT_VERSION = '1.3.3';
 
             // 使用手动粘贴的 Cookie
             el.btnUseManual.addEventListener('click', () => this.useManualCookie());
+
+            // 配置检测
+            if (el.btnCheckConfig) {
+                el.btnCheckConfig.addEventListener('click', () => this.checkConfig());
+            }
 
             // 保存配置
             el.btnSaveConfig.addEventListener('click', () => this.saveConfig());
@@ -1788,6 +1801,105 @@ const CURRENT_VERSION = '1.3.3';
                 this.showStatus('发送失败：' + (error && error.message ? error.message : error), 'error');
             } finally {
                 el.btnSend.classList.remove('sending');
+            }
+        }
+
+        // 配置检测：校验地址、账号密码与接口权限是否可用
+        async checkConfig() {
+            const el = this.elements;
+            const btn = el.btnCheckConfig;
+            if (btn && btn.classList.contains('checking')) return;
+
+            this.switchTab('config');
+
+            const rawUrl = el.qinglongUrl.value.trim();
+            const username = el.qinglongUsername.value.trim();
+            const password = el.qinglongPassword.value.trim();
+
+            if (!rawUrl) {
+                this.showStatus('配置检测未通过：请填写青龙面板地址。', 'warning');
+                return;
+            }
+            if (!username) {
+                this.showStatus('配置检测未通过：请填写青龙用户名。', 'warning');
+                return;
+            }
+            if (!password) {
+                this.showStatus('配置检测未通过：请填写青龙密码。', 'warning');
+                return;
+            }
+
+            const url = normalizeQinglongUrl(rawUrl);
+            let parsed = null;
+            try {
+                parsed = new URL(url);
+            } catch (e) {
+                parsed = null;
+            }
+            if (!parsed || !/^https?:$/.test(parsed.protocol)) {
+                this.showStatus('配置检测未通过：面板地址格式不正确，请填写类似 http://192.168.1.10:5700 的地址。', 'error');
+                return;
+            }
+            if (/\/api\/?$/i.test(url)) {
+                this.showStatus('配置检测未通过：面板地址不应包含 /api，请填写 http://IP:端口。', 'error');
+                return;
+            }
+
+            if (btn) {
+                btn.classList.add('checking');
+                btn.textContent = '🔍 检测中...';
+            }
+            const finish = () => {
+                if (btn) {
+                    btn.classList.remove('checking');
+                    btn.textContent = '🔍 配置检测';
+                }
+            };
+
+            try {
+                this.showStatus('正在连接青龙面板并校验账号...', 'warning');
+
+                // 强制登录以验证用户名密码本身可用，而不是复用缓存 token
+                let token = await this.loginQinglong(url, username, password, true);
+
+                this.showStatus('连接成功，正在校验环境变量接口权限...', 'warning');
+
+                const queryEnvs = async (tk) => this.requestQinglong(
+                    'GET',
+                    `${url}/api/envs?searchValue=JD_COOKIE`,
+                    tk
+                );
+
+                let { data } = await queryEnvs(token);
+
+                // 缓存 token 失效时重新登录并重试一次
+                if (data.code === 401 || this.isAuthError(data.message)) {
+                    this.clearCachedToken();
+                    token = await this.loginQinglong(url, username, password, true);
+                    ({ data } = await queryEnvs(token));
+                }
+
+                if (data.code !== 200) {
+                    throw new Error(data.message || '读取环境变量接口失败');
+                }
+
+                const envs = (Array.isArray(data.data) ? data.data : [])
+                    .filter((env) => env && env.name === 'JD_COOKIE');
+
+                this.showStatus(
+                    `配置检测通过 ✅ 地址可连接、账号登录成功、接口权限正常（当前 JD_COOKIE ${envs.length} 条）。`,
+                    'success'
+                );
+            } catch (error) {
+                console.error('【京东Cookie助手】配置检测失败:', error);
+                this.clearCachedToken();
+                let message = error && error.message ? error.message : String(error);
+                if (/HTTP 404/.test(message)) {
+                    message = '接口地址不存在（HTTP 404），请确认面板地址是否正确、青龙版本是否 ≥ 2.9';
+                }
+                this.showStatus('配置检测未通过：' + message, 'error');
+            } finally {
+                finish();
             }
         }
 
