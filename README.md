@@ -6,7 +6,7 @@
 
 > 原作者：[zhanzhiwei123456-dotcom/d-cookie-helper](https://github.com/zhanzhiwei123456-dotcom/d-cookie-helper)
 
-[![version](https://img.shields.io/badge/version-1.3.4-blue.svg)](https://github.com/junyi5d/JD-Cookie-Helper)
+[![version](https://img.shields.io/badge/version-1.3.5-blue.svg)](https://github.com/junyi5d/JD-Cookie-Helper)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Tampermonkey](https://img.shields.io/badge/Tampermonkey-5.3%2B-orange.svg)](https://www.tampermonkey.net/)
 
@@ -165,6 +165,11 @@ A: 这是京东账号现在收紧了cookie的有效时间，有时候半天就�
 ***
 
 ## 更新日志
+
+### v1.3.5（2026-11-24）
+
+- 修复未在脚本元数据中声明青龙面板域名，导致「配置检测」和「检查更新」提示无法连接的问题（改为 `@connect *`，支持任意面板地址）
+- 优化配置检测失败提示：区分接口 404、跨域权限未允许、HTTPS 页面访问 HTTP 面板等情况，并给出对应处理建议
 
 ### v1.3.4（2026-11-24）
 

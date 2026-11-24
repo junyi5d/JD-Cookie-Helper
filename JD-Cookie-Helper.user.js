@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         京东Cookie助手
 // @namespace    http://tampermonkey.net/
-// @version      1.3.4
+// @version      1.3.5
 // @description  京东Cookie助手 - 搭配篡改猴自动获取CK，一键同步到青龙面板，减少手工抓取pt_key、pt_pin的烦恼
 // @author       JD Helper、junyi5d
 // @match        https://jd.com/*
@@ -14,7 +14,7 @@
 // @grant        GM_getValue
 // @grant        GM_addStyle
 // @grant        GM_cookie
-// @connect      jd.com
+// @connect      *
 // @run-at       document-idle
 // @license      MIT
 // @updateURL    https://raw.githubusercontent.com/junyi5d/JD-Cookie-Helper/main/JD-Cookie-Helper.user.js
@@ -24,7 +24,7 @@
 // ============ 全局版本常量 ============
 // 说明：此处为脚本唯一版本来源，@version 元数据需同步修改；
 // 控制台日志与设置面板的版本号均引用该常量。
-const CURRENT_VERSION = '1.3.4';
+const CURRENT_VERSION = '1.3.5';
 
 (function () {
     'use strict';
@@ -1541,6 +1541,11 @@ const CURRENT_VERSION = '1.3.4';
         // 青龙请求封装
         requestQinglong(method, url, token, body) {
             return new Promise((resolve, reject) => {
+                if (typeof GM_xmlhttpRequest !== 'function') {
+                    reject(new Error('当前脚本管理器不支持跨域请求（GM_xmlhttpRequest）'));
+                    return;
+                }
+
                 const headers = {};
                 if (body !== undefined) headers['Content-Type'] = 'application/json';
                 if (token) headers['Authorization'] = `Bearer ${token}`;
@@ -1561,7 +1566,10 @@ const CURRENT_VERSION = '1.3.4';
                         }
                         resolve({ status: response.status, data });
                     },
-                    onerror: () => reject(new Error('无法连接青龙面板，请检查地址是否正确')),
+                    onerror: (response) => {
+                        const detail = response && response.error ? `（${response.error}）` : '';
+                        reject(new Error(`无法连接青龙面板，请检查地址是否正确${detail}`));
+                    },
                     ontimeout: () => reject(new Error('连接青龙面板超时'))
                 });
             });
@@ -1896,6 +1904,11 @@ const CURRENT_VERSION = '1.3.4';
                 let message = error && error.message ? error.message : String(error);
                 if (/HTTP 404/.test(message)) {
                     message = '接口地址不存在（HTTP 404），请确认面板地址是否正确、青龙版本是否 ≥ 2.9';
+                } else if (/无法连接青龙面板|网络错误|Failed to fetch|NetworkError/i.test(message)) {
+                    message += '。请确认：1) 面板地址和端口可访问；2) 脚本管理器已允许跨域访问（弹窗时选「总是允许此域名」）';
+                    if (location.protocol === 'https:' && /^http:\/\//i.test(url)) {
+                        message += '；3) 当前页面为 HTTPS，浏览器可能拦截对 HTTP 面板的请求，建议为青龙配置 HTTPS 或反向代理';
+                    }
                 }
                 this.showStatus('配置检测未通过：' + message, 'error');
             } finally {
